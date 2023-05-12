@@ -13,26 +13,25 @@ import ru.scooter.courier.CourierCredentials;
 import ru.scooter.courier.CourierGenerator;
 
 public class CreateCourierWithSameLoginTest {
-    private CourierClient courierClient = new CourierClient();
-    private Courier courierFirst;
-    private Courier courierSecond;
+    private CourierClient courierClient;
+    private Courier courier;
     private int courierId;
     @Before
     public void setUp(){
-        courierFirst = CourierGenerator.getCourierClone();
-        courierSecond = CourierGenerator.getCourierClone();
+        courier = CourierGenerator.getCourierClone();
+        courierClient = new CourierClient();
     }
     @Test
     @DisplayName("Невозможно создать курьера с уже использующимся логином")
     @Description("Сообщение в теле ответа, код ответа 409")
     public void courierWithSameLoginCantBeCreated(){
-        ValidatableResponse createResponse = courierClient.create(courierFirst);
-        ValidatableResponse loginResponse = courierClient.login(CourierCredentials.from(courierFirst));
+        ValidatableResponse createResponse = courierClient.create(courier);
+        ValidatableResponse loginResponse = courierClient.login(CourierCredentials.from(courier));
         courierId = loginResponse.extract().path("id");
         createResponse.log().all().body("ok", Matchers.equalTo(true))
                 .and()
                 .statusCode(201);
-        ValidatableResponse createSecondResponse = courierClient.create(courierSecond);
+        ValidatableResponse createSecondResponse = courierClient.create(courier);
         createSecondResponse.log().all().body("message", Matchers.equalTo("Этот логин уже используется. Попробуйте другой."))
                 .and()
                 .statusCode(409);

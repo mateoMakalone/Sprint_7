@@ -31,10 +31,10 @@ public class OrderCreateTest {
     @Parameterized.Parameters
     public static Object[][]getData() {
         return new Object[][]{
-                {order = OrderGenerator.getOrderWithBlackNGreyColor()},
-                {order = OrderGenerator.getOrderWithBlackColor()},
-                {order = OrderGenerator.getOrderWithGreyColor()},
-                {order = OrderGenerator.getOrderWithoutColor()},
+                {order = OrderGenerator.getOrderData(new String[]{"BLACK"})},
+                {order = OrderGenerator.getOrderData(new String[]{"GREY"})},
+                {order = OrderGenerator.getOrderData(new String[]{"BLACK", "GREY"})},
+                {order = OrderGenerator.getOrderData(null)},
         };
     }
     @Test

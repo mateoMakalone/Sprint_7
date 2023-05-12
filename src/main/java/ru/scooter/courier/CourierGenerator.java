@@ -1,8 +1,10 @@
 package ru.scooter.courier;
 
+import com.github.javafaker.Faker;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class CourierGenerator {
+    static Faker faker = new Faker();
     public static Courier getRandom(){
         final String login = RandomStringUtils.randomAlphabetic(10);
         final String password = RandomStringUtils.randomAlphabetic(10);
@@ -22,9 +24,9 @@ public class CourierGenerator {
     }
 
     public static Courier getCourierClone(){
-        final String login = "Uchihaa";
-        final String password = "Kanoha";
-        final String firstName = "Saske";
+        final String login = faker.name().username();
+        final String password = faker.number().digit();
+        final String firstName = faker.name().firstName();
         return new Courier(login, password, firstName);
     }
 }
